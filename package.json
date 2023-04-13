@@ -1,0 +1,25 @@
+{
+  "name": "xd-fox",
+  "version": "1.0.0",
+  "description": "XD-Fox Bot",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/PsychoticForce1/XD-Fox.git"
+  },
+  "author": "Psychotic_Force",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/PsychoticForce1/XD-Fox/issues"
+  },
+  "homepage": "https://github.com/PsychoticForce1/XD-Fox#readme",
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "discord.js": "^14.9.0",
+    "dotenv": "^16.0.3",
+    "mongoose": "^7.0.3"
+  }
+}
