@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
-let pass = "";
+require("dotenv").config();
+
 
 module.exports = {
     init: () =>{
@@ -10,8 +11,8 @@ module.exports = {
             connectTimeoutMS: 10000,
             family: 4,
         }
-        mongoose.connect(`mongodb+srv://MinitureMitch:${pass}@bigmitchdatabase.a8mm4.mongodb.net/MiniMitch?retryWrites=true&w=majority`, dbOptions);
-        
+        mongoose.connect(`mongodb+srv://DiscordBot:${process.env.MONGOPASS}@cluster0.878ztny.mongodb.net/?retryWrites=true&w=majority`, dbOptions);
+
         //mongoose.set('useFindAndModify', false);
         mongoose.Promise = global.Promise;
 

@@ -19,6 +19,7 @@ client.prefix = "show";
 client.commands = new Discord.Collection();
 client.aliases = new Discord.Collection();
 client.descriptions = new Discord.Collection();
+client.usableGuilds = new Discord.Collection();
 
 let commandFiles = fs.readdirSync("commands").filter(file => file.endsWith(".js"));
     commandFiles.forEach(file => {
@@ -30,6 +31,12 @@ let commandFiles = fs.readdirSync("commands").filter(file => file.endsWith(".js"
             })
         }
         client.descriptions.set(command.name,command.description);
+        
+        if (command.usableGuilds){
+            command.usableGuilds.forEach(guild => {
+                client.usableGuilds.set(guild, command)
+            })
+        }
         
     });
 let eventFiles = fs.readdirSync("events").filter(file => file.endsWith(".js"));
