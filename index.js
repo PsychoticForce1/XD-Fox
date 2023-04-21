@@ -1,4 +1,9 @@
 const Discord = require("discord.js");
+const fs = require("fs");
+require("dotenv").config();
+//const mongoose = require("./database/mongoose");
+//mongoose.init();
+
 const client = new Discord.Client({
     intents: [
         Discord.GatewayIntentBits.GuildMessages,
@@ -9,17 +14,34 @@ const client = new Discord.Client({
     ]
 });
 const { exec } = require("child_process");
-require("dotenv").config();
 
-client.on('interactionCreate', async (interaction) => {
-	if (!interaction.isChatInputCommand()) return;
+client.prefix = "show";
+client.commands = new Discord.Collection();
+client.aliases = new Discord.Collection();
+client.descriptions = new Discord.Collection();
 
-	if (interaction.commandName === 'ping') {
-		await interaction.reply('Pong!');
-	}
+let commandFiles = fs.readdirSync("commands").filter(file => file.endsWith(".js"));
+    commandFiles.forEach(file => {
+        let command = require(`./commands/${file}`);
+        client.commands.set(command.name,command);
+        if (command.aliases){
+            command.aliases.forEach(alias => {
+                client.aliases.set(alias, command)
+            })
+        }
+        client.descriptions.set(command.name,command.description);
+        
+    });
+let eventFiles = fs.readdirSync("events").filter(file => file.endsWith(".js"));
+eventFiles.forEach(file => {
+    let event = require(`./events/${file}`);
+    
+    if (event.once) {
+        client.once(event.name, (...args) => event.execute(...args));
+    } else {
+        client.on(event.name, (...args) => event.execute(client, ...args));
+    }
 });
-
-
 
 // exec("ls -la", (error, stdout, stderr) => {
 //     if (error) {
