@@ -9,24 +9,31 @@ module.exports = {
         if (msg.author.bot) return;
         if (msg.channel.type === "dm") return;
 
-        let guilds;
 
+        
         if(msg.content.startsWith(client.prefix)){
             let args = msg.content.slice(client.prefix.length).trim().split(/ +/g);
             let cmd = args.shift().toLowerCase();
-            //console.log(msg);
-            msg.guildID
+            
+            
+            if(usableGuilds[0] == "all"){
+                if (client.commands.has(cmd) || client.aliases.has(cmd)){
 
-            if(client.usableGuilds[0] == "all"){
-                guilds == true;
-               // console.log(usableGuilds[0]);
-                console.log(aliases[0]);
+                    let cmdToRun = client.commands.get(cmd) || client.aliases.get(cmd);
+                        cmdToRun.run(client, msg, args);
+                } else {console.log("command not found")}
+                 
+            }else{
+                if (client.commands.has(cmd) || client.aliases.has(cmd)){
+
+                    if(usableGuilds.includes(msg.guildId)){
+                        let cmdToRun = client.commands.get(cmd) || client.aliases.get(cmd);
+                        cmdToRun.run(client, msg, args);
+                    }
+                } else {console.log("command not found")}
             }
-            console.log(guilds);
-            if ((client.commands.has(cmd) || client.aliases.has(cmd)) && guilds){
-                let cmdToRun = client.commands.get(cmd) || client.aliases.get(cmd);
-                cmdToRun.run(client, msg, args);
-            } else {console.log("command not found")}
+            
+            
         }
     }
 };
